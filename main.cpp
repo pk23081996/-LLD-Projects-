@@ -2,12 +2,24 @@
 #include<iostream>
 #include "driverclass.h"
 #include "restaurant.h"
+#include "CommandExecutorFactory.h"
+#include "InteractiveMode.h"
 using namespace std;
+
+bool isInteractiveMode(int argc) {
+    return argc == 1;
+}
+
+bool isFileMode(int argc) {
+    return argc == 2;
+}
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     DriverClass *driver = new DriverClass();
+    OutputPrinter* printer = new OutputPrinter;
+    CommandExecutorFactory* commandExecutorFactory = new CommandExecutorFactory(driver, printer);
 
     unordered_map<string,double> menu1,menu2,menu3;
     menu1["Veg Biryani"] = 100.0;
@@ -31,7 +43,12 @@ int main(int argc, char *argv[])
     driver->showAvailableItems();
 
     driver->updateRestaurantMenu("R1", UpdateRestaurant::AddItem, "Chicken65", 250);
-    driver->updateRestaurantMenu("R2", UpdateRestaurant::UpdateItem, "Chicken Biryani", 150);
+
+    if(isInteractiveMode(argc)) {
+        InteractiveMode obj(commandExecutorFactory, printer);
+        obj.process();
+    }
+//    driver->updateRestaurantMenu("R2", UpdateRestaurant::UpdateItem, "Chicken Biryani", 150);
 
     driver->placeOrder(Customer("Ashwin"), {make_pair("Idli",3), make_pair("Dosa",1)}, OrderSelectionCriteria::Lowest_Cost);
     driver->placeOrder(Customer("Harish"), {make_pair("Idli",3), make_pair("Dosa",1)}, OrderSelectionCriteria::Lowest_Cost);

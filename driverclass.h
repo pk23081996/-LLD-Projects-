@@ -52,7 +52,6 @@ public:
         } else if(type == UpdateRestaurant::UpdateItem) {
             restaurantIdToRestaurantMap[id]->addorUpdateItem(item, price);
         }
-        cout << endl << "Menu Updated! Updated Menu : " << endl;
         showAvailableItems();
         cout << endl;
     }

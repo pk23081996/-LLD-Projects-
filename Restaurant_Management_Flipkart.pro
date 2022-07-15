@@ -16,10 +16,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Command.h \
+    CommandExecutor.h \
+    CommandExecutorFactory.h \
+    ExitCommandExecutor.h \
     HighestRatingStrategy.h \
+    InteractiveMode.h \
     LowestCostStrategy.h \
+    Mode.h \
     OrderPlacingStrategy.h \
+    OutputPrinter.h \
     Requirements.h \
+    UpdateMenuCommandExecutor.h \
     customer.h \
     driverclass.h \
     order.h \
